@@ -1,5 +1,5 @@
-const categories = {"hotel": 1, "groceries": 2, "entertainement": 3, "hobbies": 4}
-const userId = 1
+const categories = {"hotel": 1, "groceries": 2, "entertainment": 3, "hobbies": 4}
+const userId = 2
 
 function get_expense_form_data(){
     //get form data
@@ -7,7 +7,7 @@ function get_expense_form_data(){
     const cost = document.getElementById("cost").value.trim();
     const category = document.getElementById("category").value;
     return {
-        "expenseName": expenseName, "cost": cost, "categoryID": categories[category]
+        "expenseName": expenseName, "amount": cost, "categoryID": categories[category]
     }
 }
 
@@ -17,17 +17,17 @@ document.addEventListener("DOMContentLoaded", function(){
     insertButton.addEventListener("click", function(){
         const data = get_expense_form_data();
         if (data){
-            fetch('/index/user/${userId}', {
+            fetch(`/index/user/${userId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
             })
-            .then (respose => respose.json())
-            .then(respose => {
+            .then (response => response.json())
+            .then(response => {
                 alert(response.message);
-                document.getElementById("registrationForm").reset();
+                document.getElementById("insert_expense").reset();
             })
             .catch(error => {
                 console.error("Insert failed:"+ error);

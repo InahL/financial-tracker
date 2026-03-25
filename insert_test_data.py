@@ -31,6 +31,6 @@ values3 = [(date.today().isoformat(), "Provigo", 400.50, 2, 1),
 
 cursor.executemany(sql3, values3)
 conn.commit()
-
-
 conn.close()
+
+print(f"Schema populated successfully")
