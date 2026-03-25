@@ -1,8 +1,9 @@
 from datetime import date
 import sqlite3
 
-
-conn = sqlite3.connect("expenses.db")
+# this script adds data to the sqlite db created in the parent directory
+# run after running create_schema.py
+conn = sqlite3.connect("../expenses.db")
 cursor = conn.cursor()
 
 # insert test data

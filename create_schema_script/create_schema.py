@@ -1,7 +1,8 @@
 import sqlite3
 
-# create sqlite schema
-def create_schema(data_path: str="expenses.db"):
+# create sqlite schema: this script will create an empty sqlite schema in the parent directory of the app
+# to populate the table run the insert_test_data.py after running this script
+def create_schema(data_path: str="../expenses.db"):
     conn = sqlite3.connect(data_path)
     cursor = conn.cursor()
 
@@ -17,13 +18,13 @@ def create_schema(data_path: str="expenses.db"):
         );
         
         CREATE TABLE IF NOT EXISTS category (
-            categoryID  INTEGER PRIMARY KEY AUTOINCREMENT,
-            CategoryName        TEXT NOT NULL UNIQUE,
-            description LONGTEXT
+            categoryID      INTEGER PRIMARY KEY AUTOINCREMENT,
+            CategoryName    TEXT NOT NULL UNIQUE,
+            description     TEXT
         );
     
         CREATE TABLE IF NOT EXISTS expense (
-            transactionID   INTEGER PRIMARY KEY AUTOINCREMENT,
+            expenseID   INTEGER PRIMARY KEY AUTOINCREMENT,
             timestamp       DATE NOT NULL,
             expenseName     VARCHAR(45),
             amount          DECIMAL(10,2) NOT NULL,
