@@ -1,10 +1,19 @@
 import sqlite3
+import os
 
 class ExpenseModel:
-    def __init__(self, db_path="expenses.db"):
-        self.conn = sqlite3.connect(db_path)
-        self.conn.row_factory = sqlite3.Row
-        self.cursor = self.conn.cursor()
+    def __init__(self):
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        self.db_path = os.path.join(base_dir, "expenses.db")
+        print("Using DB:", self.db_path)
+
+    def get_connection(self):
+        if not os.path.exists(self.db_path):
+            raise Exception("Database not found. Run schema first.")
+
+        conn = sqlite3.connect(self.db_path)
+        conn.row_factory = sqlite3.Row
+        return conn
 
     def get_all_expenses(self):
         sql = """
@@ -20,8 +29,11 @@ class ExpenseModel:
         JOIN category c ON e.categoryID = c.categoryID
         JOIN user u ON e.userID = u.userID
         """
-        self.cursor.execute(sql)
-        rows = self.cursor.fetchall()
+        conn = self.get_connection()
+        cursor = conn.cursor()
+        cursor.execute(sql)
+        rows = cursor.fetchall()
+        conn.close()
         return [dict(row) for row in rows]
 
     def insert_expense(self, expenseName, amount, categoryID, userID, timestamp):
@@ -29,15 +41,23 @@ class ExpenseModel:
         INSERT INTO expense (expenseName, amount, categoryID, userID, timestamp)
         VALUES (?, ?, ?, ?, ?)
         """
-        self.cursor.execute(sql, (expenseName, amount, categoryID, userID, timestamp))
-        self.conn.commit()
-        return self.cursor.lastrowid
+        conn = self.get_connection()
+        cursor = conn.cursor()
+        cursor.execute(sql, (expenseName, amount, categoryID, userID, timestamp))
+        conn.commit()
+        expense_id = cursor.lastrowid
+        conn.close()
+        return expense_id
 
     def delete_expense(self, expenseID):
         sql = "DELETE FROM expense WHERE expenseID = ?"
-        self.cursor.execute(sql, (expenseID,))
-        self.conn.commit()
-        return self.cursor.rowcount
+        conn = self.get_connection()
+        cursor = conn.cursor()
+        cursor.execute(sql, (expenseID,))
+        conn.commit()
+        deleted_count = cursor.rowcount
+        conn.close()
+        return deleted_count
 
     def __del__(self):
         self.cursor.close()
