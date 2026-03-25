@@ -1,6 +1,5 @@
 const categories = {"hotel": 1, "groceries": 2, "entertainment": 3, "hobbies": 4}
-const userId = 2
-
+const userId = 2;
 function get_expense_form_data(){
     //get form data
     const expenseName = document.getElementById("expenseName").value.trim();
@@ -12,7 +11,7 @@ function get_expense_form_data(){
 }
 
 function load_expenses() {
-    fetch('/index')
+    fetch(`/index/user/${userId}/expenses`)
     .then(response => response.json())
     .then(data => {
         display_expenses(data);
@@ -24,27 +23,27 @@ function load_expenses() {
 
 function display_expenses(expenses) {
     const container = document.getElementById("expensesList");
-    container.innerHTML = ""; // clear old content
+    // container.innerHTML = ""; // clear old content
 
     if (expenses.length === 0) {
         container.innerHTML = "<p>No expenses found.</p>";
         return;
     }
 
-    expenses.forEach(exp => {
-        const item = document.createElement("div");
-        item.classList.add("expense-item");
+    // expenses.forEach(exp => {
+    //     const item = document.createElement("div");
+    //     item.classList.add("expense-item");
 
-        item.innerHTML = `
-            <p><strong>${exp.expenseName}</strong> — $${exp.amount}</p>
-            <p>Category: ${exp.CategoryName}</p>
-            <p>Date: ${exp.timestamp}</p>
-            <button onclick="delete_expense(${exp.expenseID})">Delete</button>
-            <hr>
-        `;
+    //     item.innerHTML = `
+    //         <p><strong>${exp.expenseName}</strong> — $${exp.amount}</p>
+    //         <p>Category: ${exp.CategoryName}</p>
+    //         <p>Date: ${exp.timestamp}</p>
+    //         <button onclick="delete_expense(${exp.expenseID})">Delete</button>
+    //         <hr>
+    //     `;
 
-        container.appendChild(item);
-    });
+    //     container.appendChild(item);
+    // });
 }
 
 function delete_expense(expenseId) {
@@ -79,6 +78,7 @@ document.addEventListener("DOMContentLoaded", function(){
             .then(response => {
                 alert(response.message);
                 document.getElementById("insert_expense").reset();
+                load_expenses();
             })
             .catch(error => {
                 console.error("Insert failed:"+ error);

@@ -58,6 +58,26 @@ class ExpenseModel:
         deleted_count = cursor.rowcount
         conn.close()
         return deleted_count
+    
+    def get_expenses_by_user(self, userId):
+        query = """
+        SELECT  
+            e.expenseID,
+            e.expenseName,
+            e.amount,
+            e.timestamp,
+            c.categoryName
+        FROM expense e
+        JOIN category c ON e.categoryID = c.categoryID 
+        WHERE userID = ?
+        """
+        conn = self.get_connection()
+        cursor = conn.cursor()
+        cursor.execute(query, (userId,))
+        conn.commit()
+        rows = cursor.fetchall()
+        conn.close()
+        return [dict(row) for row in rows]
 
     def __del__(self):
         self.cursor.close()

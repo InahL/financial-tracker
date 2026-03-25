@@ -26,9 +26,24 @@
                 <input type="button" id = "insert" value="Insert"/>
             </p>
             </form>
-            <h2>All Expenses</h2>
-            <div id="expensesList"></div>
-        <script src="{{ url_for('static', filename='script.js') }}"></script>
+            <h2>All Your Expenses</h2>
 
+            {% if expenses %}
+                <ul>
+                {% for exp in expenses %}
+                    <li>
+                        <strong>{{ exp.expenseName }}</strong> — ${{ exp.amount }}
+                        (Category: {{ exp.CategoryName }}, Date Added: {{ exp.timestamp }})
+                        <input type="button"
+                        value="Delete"
+                        onclick="delete_expense('{{ exp.expenseID }}')">
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p>No expenses found.</p>
+            {% endif %}
+
+        <script src="{{ url_for('static', filename='script.js') }}"></script>   
     </body>
 </html>
