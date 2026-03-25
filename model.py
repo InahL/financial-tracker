@@ -58,7 +58,3 @@ class ExpenseModel:
         deleted_count = cursor.rowcount
         conn.close()
         return deleted_count
-
-    def __del__(self):
-        self.cursor.close()
-        self.conn.close()
