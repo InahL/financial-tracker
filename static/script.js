@@ -1,5 +1,5 @@
 const categories = {"hotel": 1, "groceries": 2, "entertainment": 3, "hobbies": 4}
-const userId = 1
+const userId = 2
 
 function get_expense_form_data(){
     //get form data

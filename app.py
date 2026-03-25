@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS
 from datetime import date
 from model import ExpenseModel
@@ -11,6 +11,10 @@ model = ExpenseModel()
 def get_expenses():
     data = model.get_all_expenses()
     return jsonify(data), 200
+
+@app.route('/index/user/<int:userId>', methods=['GET'])
+def show_expense_page(userId):
+    return render_template('index.html', userId=userId)
 
 @app.route('/index/user/<int:userId>', methods = ['POST'])
 def insert_expense(userId) -> int:

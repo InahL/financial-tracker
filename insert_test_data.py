@@ -3,7 +3,7 @@ import sqlite3
 
 # this script adds data to the sqlite db created in the parent directory
 # run after running create_schema.py
-conn = sqlite3.connect("../expenses.db")
+conn = sqlite3.connect("expenses.db")
 cursor = conn.cursor()
 
 # insert test data
@@ -31,6 +31,6 @@ values3 = [(date.today().isoformat(), "Provigo", 400.50, 2, 1),
 
 cursor.executemany(sql3, values3)
 conn.commit()
-
-
 conn.close()
+
+print(f"Schema populated successfully")

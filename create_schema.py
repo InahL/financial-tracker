@@ -2,7 +2,7 @@ import sqlite3
 
 # create sqlite schema: this script will create an empty sqlite schema in the parent directory of the app
 # to populate the table run the insert_test_data.py after running this script
-def create_schema(data_path: str="../expenses.db"):
+def create_schema(data_path: str="expenses.db"):
     conn = sqlite3.connect(data_path)
     cursor = conn.cursor()
 
@@ -41,5 +41,5 @@ def create_schema(data_path: str="../expenses.db"):
     conn.close()
     print(f"Schema created successfully in '{data_path}'")
 
-create_schema(data_path="../expenses.db")
+create_schema(data_path="expenses.db")
 

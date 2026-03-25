@@ -1,7 +1,7 @@
 import sqlite3
 
 # this script is intended to test the db entries and tables
-conn = sqlite3.connect("../expenses.db")
+conn = sqlite3.connect("expenses.db")
 cursor= conn.cursor()
 
 sql1 = "SELECT * FROM expense"
