@@ -41,5 +41,5 @@ def create_schema(data_path: str="../expenses.db"):
     conn.close()
     print(f"Schema created successfully in '{data_path}'")
 
-create_schema()
+create_schema(data_path="../expenses.db")
 
