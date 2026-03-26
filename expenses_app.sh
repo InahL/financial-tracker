@@ -5,7 +5,7 @@ set -euo pipefail
 
 # === Setup a full-stack app expense tracker on AWS EC2 instance with Docker Compose ==
 # - Backend: Python, Flask + SQLite (Python 3.11-slim in Docker)
-# - Frontend: JS/HTML/CSS 
+# - Frontend: JS/HTML/CSS
 # - Orchestration: docker compose
 
 APP_DIR="$HOME/financial-tracker"
@@ -21,7 +21,7 @@ print_note() {
   echo "[Note] $1"
 }
 
-# 1) Install Docker
+# 1) Install Docker and Docker Compose plugin
 print_step "Installing Docker and Docker Compose plugin"
 sudo dnf install docker -y
 sudo systemctl enable --now docker
@@ -56,19 +56,19 @@ def create_schema(data_path: str="expenses.db"):
         DROP TABLE IF EXISTS expense;
         DROP TABLE IF EXISTS category;
         DROP TABLE IF EXISTS user;
-        
+
         CREATE TABLE IF NOT EXISTS user (
             userID      INTEGER PRIMARY KEY AUTOINCREMENT,
             username    VARCHAR(45) NOT NULL UNIQUE,
             password    VARCHAR(45) NOT NULL
         );
-        
+
         CREATE TABLE IF NOT EXISTS category (
             categoryID      INTEGER PRIMARY KEY AUTOINCREMENT,
             categoryName    TEXT NOT NULL UNIQUE,
             description     TEXT
         );
-    
+
         CREATE TABLE IF NOT EXISTS expense (
             expenseID   INTEGER PRIMARY KEY AUTOINCREMENT,
             timestamp       DATE NOT NULL,
@@ -79,8 +79,8 @@ def create_schema(data_path: str="expenses.db"):
             FOREIGN KEY (categoryID)    REFERENCES category(categoryID),
             FOREIGN KEY (userID)        REFERENCES user(userID)
         );
-        
-        
+
+
     """
     cursor.executescript(sql)
     conn.commit()
@@ -251,6 +251,8 @@ def get_monthly_totals(userId):
     data = model.get_monthly_totals_for_user(userId)
     return jsonify(data), 200
 
+if __name__ == "__main__":
+    app.run(debug = True, host="0.0.0.0", port=5000)
 FILE
 
 cat > "$APP_DIR/model.py" << 'FILE'
@@ -273,7 +275,7 @@ class ExpenseModel:
 
     def get_all_expenses(self):
         sql = """
-        SELECT 
+        SELECT
             e.expenseID,
             e.expenseName,
             e.amount,
@@ -314,17 +316,17 @@ class ExpenseModel:
         deleted_count = cursor.rowcount
         conn.close()
         return deleted_count
-    
+
     def get_expenses_by_user(self, userId):
         query = """
-        SELECT  
+        SELECT
             e.expenseID,
             e.expenseName,
             e.amount,
             e.timestamp,
             c.categoryName
         FROM expense e
-        JOIN category c ON e.categoryID = c.categoryID 
+        JOIN category c ON e.categoryID = c.categoryID
         WHERE e.userID = ?
         """
         conn = self.get_connection()
@@ -350,7 +352,7 @@ class ExpenseModel:
 
     def get_monthly_totals_for_user(self, user_id):
         query = """
-        SELECT 
+        SELECT
             strftime('%Y-%m', timestamp) as month,
             SUM(amount) as total
         FROM expense
@@ -937,5 +939,3 @@ echo
 print_note "To update code: edit files under $APP_DIR, then run:"
 echo "  sudo docker compose build && sudo docker compose up -d"
 EOF
-
-
