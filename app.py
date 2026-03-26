@@ -40,5 +40,11 @@ def delete_expense(expenseId) -> dict:
         return jsonify({"message": "Expense deleted"}), 200
     return jsonify({"Error": "Expense not found"}), 404
 
+@app.route('/index/user/<int:userId>/expenses', methods=['GET'])
+def get_user_expenses(userId):
+    data = model.get_expenses_by_user(userId)
+    return render_template('index.html', expenses=data, userId=userId)
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
