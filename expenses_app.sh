@@ -1,5 +1,6 @@
 cat >setup_expenses_app.sh << 'EOF'
 #!/usr/bin/env bash
+sudo chmod +x "$0"   # makes itself executable
 set -euo pipefail
 
 # === Setup a full-stack app expense tracker on AWS EC2 instance with Docker Compose ==
@@ -912,10 +913,11 @@ COPY . .
 
 EXPOSE 5000
 
-CMD ["python", "app.py"]
+CMD ["sh", "-c", "[ ! -f expenses.db ] && python create_schema.py; python app.py"]
 FILE
 
 print_step "Building containers (this may take a few minutes)"
+cd "$APP_DIR"
 sudo docker build -t expenses-backend .
 
 print_step "Done!"
@@ -936,5 +938,4 @@ print_note "To update code: edit files under $APP_DIR, then run:"
 echo "  sudo docker compose build && sudo docker compose up -d"
 EOF
 
-chmod +x setup_expenses_app.sh
 
