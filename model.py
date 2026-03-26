@@ -69,16 +69,43 @@ class ExpenseModel:
             c.categoryName
         FROM expense e
         JOIN category c ON e.categoryID = c.categoryID 
-        WHERE userID = ?
+        WHERE e.userID = ?
         """
         conn = self.get_connection()
         cursor = conn.cursor()
         cursor.execute(query, (userId,))
-        conn.commit()
         rows = cursor.fetchall()
         conn.close()
         return [dict(row) for row in rows]
 
-    def __del__(self):
-        self.cursor.close()
-        self.conn.close()
+    def update_expense(self, expenseID, expenseName, amount, categoryID):
+        sql = """
+        UPDATE expense
+        SET expenseName = ?, amount = ?, categoryID = ?
+        WHERE expenseID = ?
+        """
+        conn = self.get_connection()
+        cursor = conn.cursor()
+        cursor.execute(sql, (expenseName, amount, categoryID, expenseID))
+        conn.commit()
+        updated_count = cursor.rowcount
+        conn.close()
+        return updated_count
+
+    def get_monthly_totals_for_user(self, user_id):
+        query = """
+        SELECT 
+            strftime('%Y-%m', timestamp) as month,
+            SUM(amount) as total
+        FROM expense
+        WHERE userID = ?
+        GROUP BY month
+        ORDER BY month
+        """
+        conn = self.get_connection()
+        cursor = conn.cursor()
+        cursor.execute(query, (user_id,))
+        rows = cursor.fetchall()
+        conn.close()
+
+        return [dict(row) for row in rows]

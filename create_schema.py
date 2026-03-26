@@ -19,7 +19,7 @@ def create_schema(data_path: str="expenses.db"):
         
         CREATE TABLE IF NOT EXISTS category (
             categoryID      INTEGER PRIMARY KEY AUTOINCREMENT,
-            CategoryName    TEXT NOT NULL UNIQUE,
+            categoryName    TEXT NOT NULL UNIQUE,
             description     TEXT
         );
     
