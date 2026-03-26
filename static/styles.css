@@ -1,0 +1,145 @@
+
+h1, h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-weight: 600;
+    margin-top: 20px;
+}
+
+h2 {
+    font-weight: 500;
+    color: #333;
+}
+
+table {
+    width: 100%;        /* still responsive */
+    border-collapse: collapse;
+}
+
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f4f4f4;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+button {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    margin-right: 5px;
+}
+
+/* Insert button */
+.btn-primary {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #45a049;
+}
+
+/* Delete button */
+.btn-danger {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+}
+
+.btn-update {
+    background-color: #f39c12; /* orange */
+    color: white;
+}
+
+.btn-update:hover {
+    background-color: #e67e22;
+}
+
+.form-container {
+    max-width: 800px;   /* same as table */
+    margin: 20px auto;  /* center it */
+    padding: 0 10px;
+}
+
+.form-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap; /* makes it responsive */
+}
+.form-row input,
+.form-row select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    flex: 1; /* makes them evenly sized */
+    min-width: 120px;
+}
+
+.table-container {
+    max-width: 800px;   /* limits width on big screens */
+    margin: 0 auto;     /* centers horizontally */
+    padding: 0 10px;    /* small padding for mobile */
+}
+
+.charts-row {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px;
+    margin: 30px auto 60px auto;
+    max-width: 900px;
+    flex-wrap: wrap;
+}
+
+.chart-card {
+    text-align: center;
+    margin: 0 auto;
+}
+
+.chart-card canvas {
+    display: block;
+    margin: 0 auto;
+}
+
+.pie-chart {
+    width: 280px;
+    height: 280px;
+    flex: 0 0 280px;
+    padding-bottom: 40px;
+}
+
+.bar-chart {
+    flex: 1;              /* take remaining space */
+    min-width: 500px;    /* ensure it's not too small */
+    height: 360px;
+}
+
+.form-container {
+    max-width: 800px;
+    margin: 30px auto 20px auto;
+    padding: 0 10px;
+}
+
+canvas {
+    image-rendering: auto;
+}
