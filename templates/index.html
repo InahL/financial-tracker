@@ -1,32 +1,63 @@
 <!DOCTYPE html>
 <html>
-    
     <head>
         <title>Expense form</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     </head>
     <body>
-        <h2>Insert an expense</h2>
-            <form id="insert_expense">
-                <p>
-                    <label>Expense Name:</label><br>
-                    <input type="text" id="expenseName" name="expenseName" required><br>
-                </p>
-                <p>
-                    <label>Cost: </label><br>
-                    <input type="number" step="any" id="cost" name="cost" required><br>
-                </p>
-                <p>Category:</p>
+        <h1>Your Expense Page</h1>
+            <div class="charts-row">
+                <div class="chart-card pie-chart">
+                    <h2>Expenses by Category</h2>
+                    <canvas id="expenseChart"></canvas>
+                </div>
+
+                <div class="chart-card bar-chart">
+                    <h2>Monthly Spending</h2>
+                    <canvas id="monthlyChart"></canvas>
+                </div>
+            </div>
+
+        <div class="form-container">
+            <h2>Insert an expense</h2>
+                <form id="insert_expense" class="form-row">
+
+                    <input type="text" id="expenseName" placeholder="Expense name" required><br>
+
+                    <input type="number" step="any" id="cost" placeholder="Amount" required><br>
+
+
                     <select id="category" name="category" required>
-                        <option value="groceries">Groceries</option>
-                        <option value="hobbies">Hobbies</option>
-                        <option value="entertainment">Entertainment</option>
-                    </select>
-                <p>
+                            <option value="groceries">Groceries</option>
+                            <option value="hobbies">Hobbies</option>
+                            <option value="entertainment">Entertainment</option>
+                            <option value="accommodation">Accommodation</option>
+                        </select>
+                    <p>
+                    <button type="button" id="insert" class="btn-primary">Insert</button>
+                </p>
+                </form>
+            </div>
+            <div class="table-container">
+                <h2>All Your Expenses</h2>
 
-                <input type="button" id = "insert" value="Insert"/>
-            </p>
-            </form>
-        <script src="{{ url_for('static', filename='script.js') }}"></script>
+                <table id="expensesTable" border="1">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Amount</th>
+                            <th>Category</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expensesTableBody">
+                        <!-- Rows will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
 
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script src="{{ url_for('static', filename='script.js') }}"></script>
     </body>
 </html>
