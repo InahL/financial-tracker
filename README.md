@@ -177,7 +177,7 @@ Two users are pre-loaded with 3 months of sample expense data (Jan–Mar 2026):
 | 1 | Alice | wonderland |
 | 2 | Madhatter | teaparty |
 
-Navigate to `/index/user/1` or `/index/user/2` to view each user's dashboard.
+Change the ```userId``` variable in the ```script.js``` file to view each user's dashboard.
 
 > ⚠️ In the EC2 instance the deployment is hardcoded to userId = 1. To change this to user 2 will have to change in the script and create a new docker image
 
